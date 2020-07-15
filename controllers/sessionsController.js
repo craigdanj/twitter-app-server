@@ -32,20 +32,20 @@ router.get('/connect', (req, res) => {
 
 router.get('/saveAccessTokens', (req, res) => {
 	consumer.getOAuthAccessToken(
-	req.query.oauth_token,
-	req.session.oauthRequestTokenSecret,
-	req.query.oauth_verifier,
-	(error, oauthAccessToken, oauthAccessTokenSecret, results) => {
-		if (error) {
-		logger.error(error);
-		res.send(error, 500);
+		req.query.oauth_token,
+		req.session.oauthRequestTokenSecret,
+		req.query.oauth_verifier,
+		(error, oauthAccessToken, oauthAccessTokenSecret, results) => {
+			if (error) {
+				res.send(error, 500);
+			}
+			else {
+				req.session.oauthAccessToken = oauthAccessToken;
+				req.session.oauthAccessTokenSecret = oauthAccessTokenSecret
+				return res.send({ message: 'token saved' });
+			}
 		}
-		else {
-		req.session.oauthAccessToken = oauthAccessToken;
-		req.session.oauthAccessTokenSecret = oauthAccessTokenSecret
-		return res.send({ message: 'token saved' });
-		}
-	});
+	);
 });
 
 module.exports = router;
