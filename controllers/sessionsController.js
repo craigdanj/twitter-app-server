@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Twitter = require('twitter');
 const oauth = require('oauth');
 const _twitterConsumerKey = process.env.TWITTER_CONSUMER_KEY;
 const _twitterConsumerSecret = process.env.TWITTER_CONSUMER_SECRET;
@@ -30,7 +31,31 @@ router.get('/connect', (req, res) => {
 	});
 });
 
-router.get('/saveAccessTokens', (req, res) => {
+// router.get('/getPosts', (req, res) => {
+// 	const client = new Twitter({
+// 		consumer_key: _twitterConsumerKey,
+// 		consumer_secret: _twitterConsumerSecret,
+// 		access_token_key: req.query.oauth_token,
+// 		access_token_secret: req.session.oauthRequestTokenSecret
+// 	});
+
+// 	const params = {};
+
+	// client.get('statuses/home_timeline', params, function(error, tweets, response) {
+	// 	// console.log()
+	// 	if (!error) {
+	// 		console.log(tweets);
+	// 	}
+	// 	res.send(response);
+
+	// });
+// 	// req.query.oauth_token,
+// 	// req.session.oauthRequestTokenSecret,
+// 	// req.query.oauth_verifier,
+	
+// });
+
+router.get('/getAccessTokens', (req, res) => {
 	consumer.getOAuthAccessToken(
 		req.query.oauth_token,
 		req.session.oauthRequestTokenSecret,
@@ -42,7 +67,11 @@ router.get('/saveAccessTokens', (req, res) => {
 			else {
 				req.session.oauthAccessToken = oauthAccessToken;
 				req.session.oauthAccessTokenSecret = oauthAccessTokenSecret
-				return res.send({ message: 'token saved' });
+				return res.send({
+					success: true,
+					oauthAccessToken,
+					oauthAccessTokenSecret
+				});
 			}
 		}
 	);
