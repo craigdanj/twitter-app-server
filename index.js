@@ -1,37 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const path = require('path');
-
-const sequelize = require('./database');
-const twitterRoutes = require('./routes/twitter');
-
+const logger = require('express-logger');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const cors = require('cors');
+const sessions = require('./controllers/sessionsController');
 const app = express();
 
-//Body parser middleware.
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-//Static folder for public assest.
-app.use(express.static(path.join(__dirname, 'public')));
-
-//CORS Headers
-app.use((req, res ,next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+app.use(logger({ path: "log/express.log" }));
+app.use(cookieParser());
+app.use(session({ secret: 'testSecret', resave: false, saveUninitialized: true }));
+app.use((req, res, next) => {
+    res.locals.session = req.session;
     next();
 });
+app.use('/sessions', sessions);
 
-//Routes
-app.use('/', twitterRoutes);
-
-//Sync db and start server.
-sequelize
-    .sync()
-    .then(result => {
-        app.listen(8000, ()=> {
-            console.log("Server up and running at http://localhost:8000");
-        });
-    })
-    .catch(err => {
-        console.log(err);
-    });
+app.listen(8080, () => {
+    console.log('App running on port 8080!');
+});
