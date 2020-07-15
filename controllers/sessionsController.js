@@ -45,7 +45,10 @@ router.get('/getPosts', (req, res) => {
 		// console.log()
 		if (!error) {
 			console.log(tweets);
-			res.send(tweets);
+			res.send({
+				success: true,
+				posts: tweets
+			});
 		} else {
 			res.status(500);
 			res.send({
