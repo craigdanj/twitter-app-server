@@ -31,29 +31,34 @@ router.get('/connect', (req, res) => {
 	});
 });
 
-// router.get('/getPosts', (req, res) => {
-// 	const client = new Twitter({
-// 		consumer_key: _twitterConsumerKey,
-// 		consumer_secret: _twitterConsumerSecret,
-// 		access_token_key: req.query.oauth_token,
-// 		access_token_secret: req.session.oauthRequestTokenSecret
-// 	});
+router.get('/getPosts', (req, res) => {
+	const client = new Twitter({
+		consumer_key: _twitterConsumerKey,
+		consumer_secret: _twitterConsumerSecret,
+		access_token_key: req.query.oauthAccessToken,
+		access_token_secret: req.query.oauthAccessTokenSecret
+	});
 
-// 	const params = {};
+	const params = {};
 
-	// client.get('statuses/home_timeline', params, function(error, tweets, response) {
-	// 	// console.log()
-	// 	if (!error) {
-	// 		console.log(tweets);
-	// 	}
-	// 	res.send(response);
+	client.get('statuses/home_timeline', params, function(error, tweets, response) {
+		// console.log()
+		if (!error) {
+			console.log(tweets);
+			res.send(tweets);
+		} else {
+			res.status(500);
+			res.send({
+				success: false
+			});
+		}
 
-	// });
-// 	// req.query.oauth_token,
-// 	// req.session.oauthRequestTokenSecret,
-// 	// req.query.oauth_verifier,
+	});
+	// req.query.oauth_token,
+	// req.session.oauthRequestTokenSecret,
+	// req.query.oauth_verifier,
 	
-// });
+});
 
 router.get('/getAccessTokens', (req, res) => {
 	consumer.getOAuthAccessToken(
