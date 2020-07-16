@@ -1,14 +1,3 @@
-# express-boilerplate
-Boilerplate for an Express JS project.
+# twitter-app server
 
-Features:
-- Boilerplate with folder structure for routes, controllers, middleware etc.
-- APIs for user sign up and login.
-- Authentication via JWT.
-- An ORM for SQL database operations.
-
-//Add server side validations.
-//Add code for file uploads.
-//Add send email functionality.
-//Send email with reset password link. Add reset pwd functionality.
-//Add RBAC.
+Server code to generate access tokens for twitters users.
