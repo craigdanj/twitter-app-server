@@ -18,7 +18,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use('/sessions', sessions);
-
-app.listen(8080, () => {
-    console.log('App running on port 8080!');
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`App running on port ${port}!`);
 });
