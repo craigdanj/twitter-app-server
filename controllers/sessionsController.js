@@ -51,7 +51,8 @@ router.get('/getPosts', (req, res) => {
 		} else {
 			res.status(500);
 			res.send({
-				success: false
+				success: false,
+				response
 			});
 		}
 
