@@ -42,7 +42,6 @@ router.get('/getPosts', (req, res) => {
 	const params = {};
 
 	client.get('statuses/home_timeline', params, function(error, tweets, response) {
-		// console.log()
 		if (!error) {
 			console.log(tweets);
 			res.send({
@@ -57,9 +56,6 @@ router.get('/getPosts', (req, res) => {
 		}
 
 	});
-	// req.query.oauth_token,
-	// req.session.oauthRequestTokenSecret,
-	// req.query.oauth_verifier,
 	
 });
 
